@@ -1,4 +1,4 @@
-<?php require_once('Connections/fyp.php'); ?>
+<?php include_once('Connections/conn.php'); ?>
 <?php
 
 $index = $_POST['id'];
@@ -61,20 +61,31 @@ if($del == "Yes")
 	
 	//update status to deleted instead of deleting from database
 	/*
-	$updateSQL = sprintf("UPDATE task SET name='$tN', description='$tD', dateUpdated='$a'  WHERE id='$index' ");
+	
+	$updateSQL = "UPDATE task SET name='$tN', description='$tD', dateUpdated='$a'  WHERE id='$index' ";
 
-	mysql_select_db($database_fyp, $fyp);
-	$Result1 = mysql_query($updateSQL, $fyp) or die(mysql_error());
+	if (mysqli_query($conn, $updateSQL)) {
+		echo "Record updated successfully";
+	} else {
+		echo "Error updating record: " . mysqli_error($conn);
+	}
+
+	mysqli_close($conn);
 	
 	*/
 	
 	
 	
 	//delete from database completely
-	$deleteSQL = sprintf("DELETE from task WHERE id='$index' ");
+	$deleteSQL = "DELETE from task WHERE id='$index' ";
 
-	mysql_select_db($database_fyp, $fyp);
-	$Result1 = mysql_query($deleteSQL, $fyp) or die(mysql_error());
+	if (mysqli_query($conn, $deleteSQL)) {
+		echo "Record deleted successfully";
+	} else {
+		echo "Error deleting record: " . mysqli_error($conn);
+	}
+
+	mysqli_close($conn);
 	
 	
 	
@@ -88,10 +99,18 @@ if($del == "Yes")
 else
 {
 	
-	$updateSQL = sprintf("UPDATE task SET name='$tN', description='$tD', dateUpdated='$dT'  WHERE id='$index' ");
+	$updateSQL = "UPDATE task SET name='$tN', description='$tD', dateUpdated='$dT'  WHERE id='$index' ";
 
-	mysql_select_db($database_fyp, $fyp);
-	$Result1 = mysql_query($updateSQL, $fyp) or die(mysql_error());
+	if (mysqli_query($conn, $updateSQL)) 
+	{
+		echo "Record updated successfully";
+	} 
+	else 
+	{
+		echo "Error updating record: " . mysqli_error($conn);
+	}
+
+	mysqli_close($conn);
 	
 	
 	//echo "<br><br>delete selected no";

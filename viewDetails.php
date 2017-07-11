@@ -1,4 +1,4 @@
-<?php require_once('Connections/fyp.php'); ?>
+<?php require_once('Connections/conn.php'); ?>
 <?php
 
 	$var1 = $_POST['index1'];

@@ -1,16 +1,24 @@
-<?php require_once('Connections/fyp.php'); ?>
+<?php include_once('Connections/conn.php'); ?>
 <?php
 
 $a =$_POST['taskName'];
 $b =$_POST['description'];
 $c = $_POST['dateCreated'];
 
-$insertSQL = sprintf("INSERT INTO task (name, description, dateCreated) VALUES ('$a', '$b', '$c')");
+$insertSQL = "INSERT INTO task (name, description, dateCreated) VALUES ('$a', '$b', '$c')";
 
-  mysql_select_db($database_fyp, $fyp);
-  $Result1 = mysql_query($insertSQL, $fyp) or die(mysql_error());
+if (mysqli_query($conn, $insertSQL)) {
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $insertSQL . "<br>" . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+
 
   //$insertGoTo = ;
   header("Location: index.html");
 
+
+  
 ?>

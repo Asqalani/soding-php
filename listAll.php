@@ -1,12 +1,9 @@
-<?php require_once('Connections/fyp.php'); ?>
+<?php include_once('Connections/conn.php'); ?>
 <?php
 
 
-mysql_select_db($database_fyp, $fyp);
-$query_Recordset1 = sprintf("SELECT * FROM task ");
-$Recordset1 = mysql_query($query_Recordset1, $fyp) or die(mysql_error());
-$row_Recordset1 = mysql_fetch_assoc($Recordset1);
-$totalRows_Recordset1 = mysql_num_rows($Recordset1);
+$sql = "SELECT * FROM task ";
+$result = mysqli_query($conn, $sql);
 
 $i = 0;
 $ind = array();
@@ -24,6 +21,37 @@ $del = array();
 $searchStr = "eleted";
 //unable to search for "Deleted" in date updated, so search for part of "Deleted which is eleted" instead.
 
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while($row = mysqli_fetch_assoc($result)) 
+	{
+		
+			$ind[$i] = $row['id'];
+			$tn[$i] = $row['name'];
+			$td[$i] = $row['description'];
+			$dc[$i] = $row['dateCreated'];
+			$du[$i] = $row['dateUpdated'];
+			
+				if($du[$i] == "")
+				{
+					$du[$i] = "No update yet";
+				}
+				if(strpos($du[$i],$searchStr)) {
+				  $del[$i] = "string found";
+				}else {
+				  $del[$i] = "String not here";
+				}
+				
+				$i = $i + 1;
+        //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+    }
+} else {
+    echo "0 results";
+}
+
+mysqli_close($conn);
+
+/*
 do 
 {
 	$ind[$i] = $row_Recordset1['id'];
@@ -44,6 +72,8 @@ do
 	
 	$i = $i + 1;
 } while ($row_Recordset1 = mysql_fetch_assoc($Recordset1));
+
+*/
 
 
 ?>
@@ -75,7 +105,7 @@ do
 					<TH><font color=red>Action</TH>
 					</TR>
 					
-					<?php for($z=0; $z < $totalRows_Recordset1; $z++) { 
+					<?php for($z=0; $z < $i; $z++) { 
 					
 					echo "<form method=\"POST\" action=\"viewDetails.php\">" ;
 								
